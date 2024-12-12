@@ -19,8 +19,15 @@ func _on_body_entered(other: Node2D) -> void:
 			var polygon_coll: CollisionPolygon2D = other.get_child(1)
 
 			var offset: Vector2 = other.to_local(global_position)
+			var offset_poly: PackedVector2Array = PolygonUtil.offset_polygon(collider.polygon, offset)
 
-			var new_polys = Geometry2D.clip_polygons(polygon_img.polygon, PolygonUtil.offset_polygon(collider.polygon, offset))
+			var new_polys = Geometry2D.clip_polygons(polygon_img.polygon, offset_poly)
+			for p in new_polys:
+				if Geometry2D.is_polygon_clockwise(p):
+					# Getting here means one poly was completely enclosed in another
+					# Cut the polygon around point
+					PolygonUtil.cut_polygon(polygon_img.polygon, position, true)
+					break
 			if new_polys.is_empty():
 				other.queue_free()
 			else:

@@ -26,3 +26,11 @@ static func offset_polygon(polygon: PackedVector2Array, offset: Vector2) -> Pack
 	for i in result.size():
 		result[i] += offset
 	return result
+
+
+# Returns an array of PackedVector2Arrays, representing the two pieces the polygon will be cut into.
+# First result is the top or left side, the second result is the bottom or right side (depending on vertical).
+static func cut_polygon(polygon: PackedVector2Array, cut_point: Vector2, vertical: bool) -> Array[Array]:
+	# TODO: Clip off one side, clip off other side
+	# TODO: Make the polygon bounding util also, that will help here
+	return []
