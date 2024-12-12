@@ -2,8 +2,6 @@
 extends Sprite2D
 
 
-@onready var ground: Ground = $".."
-
-
 func _process(_delta: float) -> void:
-	texture = ground.ground_texture
+	if Engine.is_editor_hint():
+		texture = (get_parent() as Ground).ground_texture

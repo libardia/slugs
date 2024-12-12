@@ -13,14 +13,26 @@ func _ready() -> void:
 
 
 func _on_body_entered(other: Node2D) -> void:
-	for child in other.get_children():
-		if child is Polygon2D or CollisionPolygon2D:
-			var poly = child.polygon
-
-
+	if other is StaticBody2D and other.get_child_count() > 0:
+		if other.name.match("GroundBody*"):
+			var ground: Ground = other.get_parent()
+			var polygon_img: Polygon2D = other.get_child(0)
+			var polygon_coll: CollisionPolygon2D = other.get_child(1)
+			var new_polys = Geometry2D.clip_polygons(polygon_img.polygon, collider.polygon)
+			if new_polys.is_empty():
+				other.queue_free()
+			else:
+				polygon_img.set_deferred("polygon", new_polys[0])
+				polygon_coll.set_deferred("polygon", new_polys[0])
+				if new_polys.size() > 1:
+					for i in range(1, new_polys.size()):
+						ground.add_poly_and_coll(other.position, new_polys[i], ground.total_polygons, true)
+						ground.total_polygons += 1
+	# Destroy self
 	queue_free()
 
 
 func _on_timeout() -> void:
 	print("I didn't die in time")
+	# Destroy self
 	queue_free()

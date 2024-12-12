@@ -24,6 +24,7 @@ class PolygonWithBounds:
 @onready var ground_bg: Sprite2D = $GroundBG
 var texture_image: Image
 var alpha_bitmap: BitMap
+var total_polygons: int
 
 
 func _ready() -> void:
@@ -46,36 +47,40 @@ func find_polygons() -> void:
 	var kernel = Rect2i(Vector2i(), Vector2i.ONE * quadrant_size)
 	var kernel_steps_width = ceili(alpha_bitmap.get_size().x as float / quadrant_size)
 	var kernel_steps_height = ceili(alpha_bitmap.get_size().y as float / quadrant_size)
-	var i = 0
+	total_polygons = 0
 	for x in kernel_steps_width:
 		for y in kernel_steps_height:
 			kernel.position = Vector2i(x, y) * quadrant_size
 			var bitmap_polys: Array[PackedVector2Array] = alpha_bitmap.opaque_to_polygons(kernel, 0)
 			for raw_poly in bitmap_polys:
 				for p in split_if_necessary(kernel, raw_poly, true):
-					add_poly_and_coll(p.bounds, p.polygon, i)
-					i += 1
+					add_poly_and_coll(p.bounds.position, p.polygon, total_polygons)
+					total_polygons += 1
 
 
-func add_poly_and_coll(kernel: Rect2i, polygon: PackedVector2Array, id: int) -> void:
+func add_poly_and_coll(create_at: Vector2i, polygon: PackedVector2Array, id: int, runtime: bool = false) -> void:
+	var name_postfix = "_run" if runtime else ""
+
 	var static_body = StaticBody2D.new()
+	static_body.position = create_at
+	static_body.collision_layer = 0b1
+	static_body.collision_mask = 0b111
+	static_body.name = str("GroundBody", id, name_postfix)
+	add_child(static_body)
+	
 	var poly = Polygon2D.new()
-	var poly_coll = CollisionPolygon2D.new()
 	if debug_colors and OS.is_debug_build():
 		poly.color = Color(randf(), randf(), randf())
 	else:
 		poly.texture = ground_texture
+		poly.texture_offset = create_at
 	poly.polygon = polygon
-	poly_coll.polygon = polygon
-	poly.offset = kernel.position
-	poly_coll.position = kernel.position
-	poly.name = str("Quad", id)
-	poly_coll.name = str("Coll", id)
-	static_body.collision_layer = 0b1
-	static_body.collision_mask = 0b111
-	static_body.name = str("GroundBody", id)
-	add_child(static_body)
+	poly.name = str("GroundPoly", id, name_postfix)
 	static_body.add_child(poly)
+	
+	var poly_coll = CollisionPolygon2D.new()
+	poly_coll.polygon = polygon
+	poly_coll.name = str("GroundColl", id, name_postfix)
 	static_body.add_child(poly_coll)
 
 
