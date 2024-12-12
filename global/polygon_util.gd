@@ -7,7 +7,6 @@ static var cache: Dictionary = {}
 static func generate_circle(position: Vector2, radius: float, num_sides: int) -> PackedVector2Array:
 	var k = [position, radius, num_sides]
 	if k in cache:
-		print("cache hit")
 		return cache[k]
 
 	var angle_delta: float = (PI * 2) / num_sides

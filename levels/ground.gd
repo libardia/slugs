@@ -66,7 +66,7 @@ func add_poly_and_coll(create_at: Vector2i, polygon: PackedVector2Array, id: int
 	static_body.collision_layer = 0b1
 	static_body.collision_mask = 0b111
 	static_body.name = str("GroundBody", id, name_postfix)
-	add_child(static_body)
+	call_deferred("add_child", static_body)
 	
 	var poly = Polygon2D.new()
 	if debug_colors and OS.is_debug_build():
@@ -76,12 +76,12 @@ func add_poly_and_coll(create_at: Vector2i, polygon: PackedVector2Array, id: int
 		poly.texture_offset = create_at
 	poly.polygon = polygon
 	poly.name = str("GroundPoly", id, name_postfix)
-	static_body.add_child(poly)
+	static_body.call_deferred("add_child", poly)
 	
 	var poly_coll = CollisionPolygon2D.new()
 	poly_coll.polygon = polygon
 	poly_coll.name = str("GroundColl", id, name_postfix)
-	static_body.add_child(poly_coll)
+	static_body.call_deferred("add_child", poly_coll)
 
 
 func detect_missing_holes(kernel: Rect2i, polygon: PackedVector2Array) -> Vector2i:
@@ -111,7 +111,6 @@ func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array, vertical: b
 			subkernel_a.end.y = hole_pos.y
 			subkernel_b.size.y = kernel.size.y - subkernel_a.size.y
 			subkernel_b.position.y = hole_pos.y
-		# print(subkernel_a, subkernel_b)
 		for p in alpha_bitmap.opaque_to_polygons(subkernel_a, 0):
 			results.append_array(split_if_necessary(subkernel_a, p, not vertical))
 		for p in alpha_bitmap.opaque_to_polygons(subkernel_b, 0):

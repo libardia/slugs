@@ -7,7 +7,6 @@ extends Area2D
 
 
 func _ready() -> void:
-	print("I exist")
 	body_entered.connect(_on_body_entered)
 	get_tree().create_timer(time_to_live).timeout.connect(_on_timeout)
 
@@ -18,7 +17,10 @@ func _on_body_entered(other: Node2D) -> void:
 			var ground: Ground = other.get_parent()
 			var polygon_img: Polygon2D = other.get_child(0)
 			var polygon_coll: CollisionPolygon2D = other.get_child(1)
-			var new_polys = Geometry2D.clip_polygons(polygon_img.polygon, collider.polygon)
+
+			var offset: Vector2 = other.to_local(global_position)
+
+			var new_polys = Geometry2D.clip_polygons(polygon_img.polygon, PolygonUtil.offset_polygon(collider.polygon, offset))
 			if new_polys.is_empty():
 				other.queue_free()
 			else:
@@ -28,11 +30,7 @@ func _on_body_entered(other: Node2D) -> void:
 					for i in range(1, new_polys.size()):
 						ground.add_poly_and_coll(other.position, new_polys[i], ground.total_polygons, true)
 						ground.total_polygons += 1
-	# Destroy self
-	queue_free()
 
 
-func _on_timeout() -> void:
-	print("I didn't die in time")
-	# Destroy self
+func _on_timeout():
 	queue_free()
