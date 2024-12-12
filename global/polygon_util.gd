@@ -28,6 +28,39 @@ static func offset_polygon(polygon: PackedVector2Array, offset: Vector2) -> Pack
 	return result
 
 
+static func polygon_bounds(polygon: PackedVector2Array) -> Rect2:
+	var min_point: Vector2
+	var max_point: Vector2
+	var first = true
+	for point in polygon:
+		if first:
+			first = false
+			min_point = point
+			max_point = point
+			continue
+		if min_point.x > point.x:
+			min_point.x = point.x
+		if min_point.y > point.y:
+			min_point.y = point.y
+		if max_point.x < point.x:
+			max_point.x = point.x
+		if max_point.y < point.y:
+			max_point.y = point.y
+	var result = Rect2()
+	result.position = min_point
+	result.end = max_point
+	return result
+
+
+static func rect_to_polygon(rect: Rect2) -> PackedVector2Array:
+	return PackedVector2Array([
+		rect.position,
+		Vector2(rect.position.x, rect.end.y),
+		rect.end,
+		Vector2(rect.end.x, rect.position.y)
+	])
+
+
 # Returns an array of PackedVector2Arrays, representing the two pieces the polygon will be cut into.
 # First result is the top or left side, the second result is the bottom or right side (depending on vertical).
 static func cut_polygon(polygon: PackedVector2Array, cut_point: Vector2, vertical: bool) -> Array[Array]:
