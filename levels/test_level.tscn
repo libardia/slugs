@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://bsygdjn7r7v51"]
+
+[ext_resource type="Script" path="res://levels/ground.gd" id="2_aay0g"]
+[ext_resource type="PackedScene" uid="uid://dfw4oa26judjh" path="res://levels/water.tscn" id="2_lr8su"]
+[ext_resource type="Texture2D" uid="uid://8cqtyda7oon7" path="res://assets/ship.png" id="3_7hk1c"]
+[ext_resource type="Script" path="res://levels/auto_ground_bg.gd" id="3_21tv0"]
+[ext_resource type="Script" path="res://levels/explosion_spawner.gd" id="5_2qweq"]
+[ext_resource type="PackedScene" uid="uid://b26amnqmjveyg" path="res://levels/explosion.tscn" id="6_am35b"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wut06"]
+radius = 18.0
+
+[node name="TestLevel" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="Ground" type="Node2D" parent="." node_paths=PackedStringArray("water")]
+position = Vector2(356, 225)
+script = ExtResource("2_aay0g")
+ground_texture = ExtResource("3_7hk1c")
+water = NodePath("../Water")
+debug_colors = true
+
+[node name="GroundBG" type="Sprite2D" parent="Ground"]
+texture = ExtResource("3_7hk1c")
+centered = false
+script = ExtResource("3_21tv0")
+
+[node name="Water" parent="." instance=ExtResource("2_lr8su")]
+position = Vector2(609, 578)
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2(522, 268)
+collision_layer = 2
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_7hk1c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("CircleShape2D_wut06")
+
+[node name="ExplosionSpawner" type="Node2D" parent="."]
+script = ExtResource("5_2qweq")
+explosion_scene = ExtResource("6_am35b")
