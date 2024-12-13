@@ -15,7 +15,6 @@ script = ExtResource("1_lpgqm")
 camera_anchor = NodePath("../Water")
 anchor_vertical = 2
 anchor_offset = Vector2(0, 150)
-zoom_enabled = false
 
 [node name="Ground" parent="." node_paths=PackedStringArray("water") instance=ExtResource("1_ixi0o")]
 texture_filter = 1

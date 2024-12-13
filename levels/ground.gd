@@ -26,6 +26,7 @@ class PolygonWithBounds:
 var texture_image: Image
 var alpha_bitmap: BitMap
 var total_polygons: int
+const epslion: float = 0
 
 
 func _ready() -> void:
@@ -52,7 +53,7 @@ func find_polygons() -> void:
 	for x in kernel_steps_width:
 		for y in kernel_steps_height:
 			kernel.position = Vector2i(x, y) * quadrant_size
-			var bitmap_polys: Array[PackedVector2Array] = alpha_bitmap.opaque_to_polygons(kernel, 0)
+			var bitmap_polys: Array[PackedVector2Array] = alpha_bitmap.opaque_to_polygons(kernel, epslion)
 			for raw_poly in bitmap_polys:
 				for p in split_if_necessary(kernel, raw_poly):
 					add_poly_and_coll(p.bounds.position, p.polygon, total_polygons)
@@ -112,10 +113,16 @@ func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array) -> Array[Po
 			subkernel_a.end.y = hole_pos.y
 			subkernel_b.size.y = kernel.size.y - subkernel_a.size.y
 			subkernel_b.position.y = hole_pos.y
-		for p in alpha_bitmap.opaque_to_polygons(subkernel_a, 0):
+		for p in alpha_bitmap.opaque_to_polygons(subkernel_a, epslion):
 			results.append_array(split_if_necessary(subkernel_a, p))
-		for p in alpha_bitmap.opaque_to_polygons(subkernel_b, 0):
+		for p in alpha_bitmap.opaque_to_polygons(subkernel_b, epslion):
 			results.append_array(split_if_necessary(subkernel_b, p))
 	else:
 		results.append(PolygonWithBounds.new(polygon, kernel))
 	return results
+
+
+func cut_section(ground_body: StaticBody2D, clip_polygon: PackedVector2Array) -> void:
+	if ground_body not in get_children():
+		push_error("Tried to clip something that wasn't a ground quadrant")
+		return
