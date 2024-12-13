@@ -10,13 +10,15 @@
 [node name="TestLevel" type="Node2D"]
 
 [node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("camera_anchor")]
-position = Vector2(576, 324)
+position = Vector2(575, 325)
 script = ExtResource("1_lpgqm")
 camera_anchor = NodePath("../Water")
 anchor_vertical = 2
 anchor_offset = Vector2(0, 150)
+zoom_enabled = false
 
 [node name="Ground" parent="." node_paths=PackedStringArray("water") instance=ExtResource("1_ixi0o")]
+texture_filter = 1
 ground_texture = ExtResource("3_ad54s")
 water = NodePath("../Water")
 debug_colors = true

@@ -2,7 +2,7 @@ extends Node2D
 
 
 @export var explosion_scene: PackedScene
-@export var camera_reference: Camera2D
+@export var camera_reference: CustomCamera
 
 
 func _input(event: InputEvent) -> void:
@@ -10,6 +10,5 @@ func _input(event: InputEvent) -> void:
 		event = event as InputEventMouseButton
 		if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 			var explosion = explosion_scene.instantiate() as Node2D
-			var cam_topleft = camera_reference.position - camera_reference.get_viewport_rect().size / 2
-			explosion.position = event.global_position + cam_topleft
+			explosion.position = camera_reference.viewport_pos_to_scene(event.position)
 			add_child(explosion)

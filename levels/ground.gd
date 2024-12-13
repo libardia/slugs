@@ -68,17 +68,18 @@ func add_poly_and_coll(create_at: Vector2i, polygon: PackedVector2Array, id: int
 	static_body.collision_mask = 0b111
 	static_body.name = str("GroundBody", id, name_postfix)
 	call_deferred("add_child", static_body)
-	
+
 	var poly = Polygon2D.new()
 	if debug_colors and OS.is_debug_build():
 		poly.color = Color(randf(), randf(), randf())
 	else:
 		poly.texture = ground_texture
 		poly.texture_offset = create_at
+		poly.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	poly.set_deferred("polygon", polygon)
 	poly.name = str("GroundPoly", id, name_postfix)
 	static_body.call_deferred("add_child", poly)
-	
+
 	var poly_coll = CollisionPolygon2D.new()
 	poly_coll.set_deferred("polygon", polygon)
 	poly_coll.name = str("GroundColl", id, name_postfix)
