@@ -74,12 +74,12 @@ func add_poly_and_coll(create_at: Vector2i, polygon: PackedVector2Array, id: int
 	else:
 		poly.texture = ground_texture
 		poly.texture_offset = create_at
-	poly.polygon = polygon
+	poly.set_deferred("polygon", polygon)
 	poly.name = str("GroundPoly", id, name_postfix)
 	static_body.call_deferred("add_child", poly)
 	
 	var poly_coll = CollisionPolygon2D.new()
-	poly_coll.polygon = polygon
+	poly_coll.set_deferred("polygon", polygon)
 	poly_coll.name = str("GroundColl", id, name_postfix)
 	static_body.call_deferred("add_child", poly_coll)
 
