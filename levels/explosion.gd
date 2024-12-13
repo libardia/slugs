@@ -30,9 +30,10 @@ func _on_body_entered(other: Node2D) -> void:
 			if enclosed:
 				new_polys = []
 				var sides = PolygonUtil.cut_polygon(polygon_img.polygon, offset)
-				for side in sides:
-					for p in side:
-						new_polys.append_array(Geometry2D.clip_polygons(p, offset_poly))
+				for p in sides.side_a:
+					new_polys.append_array(Geometry2D.clip_polygons(p, offset_poly))
+				for p in sides.side_b:
+					new_polys.append_array(Geometry2D.clip_polygons(p, offset_poly))
 			if new_polys.is_empty():
 				other.queue_free()
 			else:

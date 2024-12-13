@@ -1,18 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsygdjn7r7v51"]
+[gd_scene load_steps=7 format=3 uid="uid://bsygdjn7r7v51"]
 
 [ext_resource type="PackedScene" uid="uid://8ks35e64axi" path="res://levels/ground.tscn" id="1_ixi0o"]
+[ext_resource type="Script" path="res://levels/camera.gd" id="1_lpgqm"]
 [ext_resource type="PackedScene" uid="uid://dfw4oa26judjh" path="res://levels/water.tscn" id="2_lr8su"]
-[ext_resource type="Texture2D" uid="uid://c2c7imrb6vwvl" path="res://assets/ground.png" id="3_j8jbe"]
+[ext_resource type="Texture2D" uid="uid://c2c7imrb6vwvl" path="res://assets/ground.png" id="3_ad54s"]
 [ext_resource type="Script" path="res://levels/explosion_spawner.gd" id="5_2qweq"]
 [ext_resource type="PackedScene" uid="uid://b26amnqmjveyg" path="res://levels/explosion.tscn" id="6_am35b"]
 
 [node name="TestLevel" type="Node2D"]
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("camera_anchor")]
 position = Vector2(576, 324)
+script = ExtResource("1_lpgqm")
+camera_anchor = NodePath("../Water")
+anchor_vertical = 2
+anchor_offset = Vector2(0, 150)
 
 [node name="Ground" parent="." node_paths=PackedStringArray("water") instance=ExtResource("1_ixi0o")]
-ground_texture = ExtResource("3_j8jbe")
+ground_texture = ExtResource("3_ad54s")
 water = NodePath("../Water")
 debug_colors = true
 
@@ -23,3 +28,6 @@ position = Vector2(609, 578)
 script = ExtResource("5_2qweq")
 explosion_scene = ExtResource("6_am35b")
 camera_reference = NodePath("../Camera")
+
+[node name="ConstantCut" type="Node2D" parent="."]
+process_mode = 4
