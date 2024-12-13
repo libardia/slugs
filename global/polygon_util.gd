@@ -67,9 +67,9 @@ static func polygon_bounds_as_polygon(polygon: PackedVector2Array) -> PackedVect
 
 # Returns an array of PackedVector2Arrays, representing the two pieces the polygon will be cut into.
 # First result is the top or left side, the second result is the bottom or right side (depending on vertical).
-static func cut_polygon(polygon: PackedVector2Array, cut_point: Vector2, vertical: bool) -> Array[Array]:
+static func cut_polygon(polygon: PackedVector2Array, cut_point: Vector2) -> Array[Array]:
 	var bounds: Rect2 = polygon_bounds(polygon)
-	if vertical:
+	if decide_cut_direction_by_aspect(bounds):
 		bounds.end.x = cut_point.x
 		bounds = bounds.grow_individual(1, 1, 0, 1)
 	else:
@@ -79,3 +79,14 @@ static func cut_polygon(polygon: PackedVector2Array, cut_point: Vector2, vertica
 	var first_side: Array[PackedVector2Array] = Geometry2D.intersect_polygons(polygon, clip)
 	var second_side: Array[PackedVector2Array] = Geometry2D.clip_polygons(polygon, clip)
 	return [first_side, second_side]
+
+
+static func decide_cut_direction_by_point(rect: Rect2, cut_pos: Vector2) -> bool:
+	cut_pos -= rect.position
+	rect.position = Vector2.ZERO
+	var diff = (rect.size / 2) - cut_pos
+	return abs(diff.x) <= abs(diff.y)
+
+
+static func decide_cut_direction_by_aspect(rect: Rect2) -> bool:
+	return rect.size.x > rect.size.y

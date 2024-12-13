@@ -29,7 +29,7 @@ func _on_body_entered(other: Node2D) -> void:
 					break
 			if enclosed:
 				new_polys = []
-				var sides = PolygonUtil.cut_polygon(polygon_img.polygon, offset, true)
+				var sides = PolygonUtil.cut_polygon(polygon_img.polygon, offset)
 				for side in sides:
 					for p in side:
 						new_polys.append_array(Geometry2D.clip_polygons(p, offset_poly))

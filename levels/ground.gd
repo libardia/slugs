@@ -20,6 +20,7 @@ class PolygonWithBounds:
 @export_group("Debug")
 @export var skip_placement: bool = false
 @export var debug_colors: bool = false
+@export var no_background: bool = false
 
 @onready var ground_bg: Sprite2D = $GroundBG
 var texture_image: Image
@@ -53,7 +54,7 @@ func find_polygons() -> void:
 			kernel.position = Vector2i(x, y) * quadrant_size
 			var bitmap_polys: Array[PackedVector2Array] = alpha_bitmap.opaque_to_polygons(kernel, 0)
 			for raw_poly in bitmap_polys:
-				for p in split_if_necessary(kernel, raw_poly, true):
+				for p in split_if_necessary(kernel, raw_poly):
 					add_poly_and_coll(p.bounds.position, p.polygon, total_polygons)
 					total_polygons += 1
 
@@ -95,15 +96,14 @@ func detect_missing_holes(kernel: Rect2i, polygon: PackedVector2Array) -> Vector
 	return -Vector2i.ONE
 
 
-func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array, vertical: bool) -> Array[PolygonWithBounds]:
+func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array) -> Array[PolygonWithBounds]:
 	var results: Array[PolygonWithBounds] = []
 	var hole_pos: Vector2i = detect_missing_holes(kernel, polygon)
 	if hole_pos != -Vector2i.ONE:
 		var subkernel_a: Rect2i = Rect2i(kernel)
 		var subkernel_b: Rect2i = Rect2i(kernel)
 
-		vertical = decide_cut(kernel, hole_pos)
-		if vertical:
+		if PolygonUtil.decide_cut_direction_by_aspect(kernel):
 			subkernel_a.end.x = hole_pos.x
 			subkernel_b.size.x = kernel.size.x - subkernel_a.size.x
 			subkernel_b.position.x = hole_pos.x
@@ -112,16 +112,9 @@ func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array, vertical: b
 			subkernel_b.size.y = kernel.size.y - subkernel_a.size.y
 			subkernel_b.position.y = hole_pos.y
 		for p in alpha_bitmap.opaque_to_polygons(subkernel_a, 0):
-			results.append_array(split_if_necessary(subkernel_a, p, not vertical))
+			results.append_array(split_if_necessary(subkernel_a, p))
 		for p in alpha_bitmap.opaque_to_polygons(subkernel_b, 0):
-			results.append_array(split_if_necessary(subkernel_b, p, not vertical))
+			results.append_array(split_if_necessary(subkernel_b, p))
 	else:
 		results.append(PolygonWithBounds.new(polygon, kernel))
 	return results
-
-
-func decide_cut(kernel: Rect2i, cut_pos: Vector2i) -> bool:
-	cut_pos -= kernel.position
-	kernel.position = Vector2i.ZERO
-	var diff = (kernel.size / 2) - cut_pos
-	return abs(diff.x) <= abs(diff.y)
