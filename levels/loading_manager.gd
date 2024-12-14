@@ -19,13 +19,9 @@ func _ready():
         node.process_mode = Node.PROCESS_MODE_DISABLED
         node.visible = false
 
-    # Set up control
-    position = Vector2.ZERO
-    size = get_viewport_rect().size
-
 
 func _process(_delta: float) -> void:
-    progress_bar.value = (float(load_points) / float(total_load_points)) * 100
+    progress_bar.value = load_points
     if load_points >= total_load_points:
         done()
 
@@ -33,6 +29,7 @@ func _process(_delta: float) -> void:
 func register_load_points(points: int) -> void:
     mutex.lock()
     total_load_points += points
+    progress_bar.max_value = total_load_points
     mutex.unlock()
 
 
@@ -47,4 +44,5 @@ func done():
         node.process_mode = Node.PROCESS_MODE_INHERIT
         node.visible = true
     done_loading.emit()
-    queue_free()
+    # queue_free()
+    visible = false

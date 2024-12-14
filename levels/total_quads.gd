@@ -10,4 +10,5 @@ func _ready():
 
 
 func _process(_delta):
-    text = format_string % ground.get_child_count()
+    # Minus one because one of the children is the bg
+    text = format_string % (ground.get_child_count() - 1)
