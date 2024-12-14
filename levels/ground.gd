@@ -78,7 +78,7 @@ func add_poly_and_coll(create_at: Vector2i, polygon: PackedVector2Array) -> void
     ground_quad.position = create_at
     ground_quad.ground_texture_offset = create_at
     ground_quad.polygon_data = polygon
-    call_deferred("add_child", ground_quad)
+    add_child.call_deferred(ground_quad)
 
 
 func detect_missing_holes(kernel: Rect2i, polygon: PackedVector2Array) -> Vector2i:

@@ -18,8 +18,8 @@ func _ready():
         polygon_img.texture = ground.ground_texture
         polygon_img.texture_offset = ground_texture_offset
         polygon_img.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-    polygon_img.polygon = polygon_data
-    polygon_coll.polygon = polygon_data
+    polygon_img.set_deferred("polygon", polygon_data)
+    polygon_coll.set_deferred("polygon", polygon_data)
 
 
 func clip(clip_polygon: PackedVector2Array, clip_polygon_offset: Vector2):
