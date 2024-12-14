@@ -100,8 +100,8 @@ func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array) -> Array[Po
     var results: Array[PolygonWithBounds] = []
     var hole_pos: Vector2i = detect_missing_holes(kernel, polygon)
     if hole_pos != -Vector2i.ONE:
-        var subkernel_a: Rect2i = Rect2i(kernel)
-        var subkernel_b: Rect2i = Rect2i(kernel)
+        var subkernel_a: Rect2i = kernel
+        var subkernel_b: Rect2i = kernel
         if PolygonUtil.decide_cut_direction_by_aspect(kernel):
             subkernel_a.end.x = hole_pos.x
             subkernel_b.size.x = kernel.size.x - subkernel_a.size.x
@@ -115,6 +115,7 @@ func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array) -> Array[Po
                 results.append_array(split_if_necessary(subkernel_a, p))
             for p in alpha_bitmap.opaque_to_polygons(subkernel_b, EPSILON):
                 results.append_array(split_if_necessary(subkernel_b, p))
+    # Catch all to use the supplied polygon as the results
     if results.is_empty():
         results.append(PolygonWithBounds.new(polygon, kernel))
     return results
