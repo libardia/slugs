@@ -12,8 +12,7 @@
 
 [node name="UI Layer" type="CanvasLayer" parent="."]
 
-[node name="LoadManager" parent="UI Layer" node_paths=PackedStringArray("loading_targets") instance=ExtResource("1_0yscy")]
-loading_targets = [NodePath("../../LevelRoot")]
+[node name="LoadManager" parent="UI Layer" instance=ExtResource("1_0yscy")]
 
 [node name="LevelRoot" type="Node2D" parent="."]
 

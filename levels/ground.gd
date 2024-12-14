@@ -33,6 +33,7 @@ var load_thread: Thread
 var kernel_steps_width: int
 var kernel_steps_height: int
 
+
 func _ready() -> void:
 	ground_bg.texture = ground_texture
 	texture_image = ground_texture.get_image()
@@ -127,11 +128,12 @@ func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array) -> Array[Po
 			subkernel_a.end.y = hole_pos.y
 			subkernel_b.size.y = kernel.size.y - subkernel_a.size.y
 			subkernel_b.position.y = hole_pos.y
-		for p in alpha_bitmap.opaque_to_polygons(subkernel_a, EPSILON):
-			results.append_array(split_if_necessary(subkernel_a, p))
-		for p in alpha_bitmap.opaque_to_polygons(subkernel_b, EPSILON):
-			results.append_array(split_if_necessary(subkernel_b, p))
-	else:
+		if subkernel_a.has_area() and subkernel_b.has_area():
+			for p in alpha_bitmap.opaque_to_polygons(subkernel_a, EPSILON):
+				results.append_array(split_if_necessary(subkernel_a, p))
+			for p in alpha_bitmap.opaque_to_polygons(subkernel_b, EPSILON):
+				results.append_array(split_if_necessary(subkernel_b, p))
+	if results.is_empty():
 		results.append(PolygonWithBounds.new(polygon, kernel))
 	return results
 
