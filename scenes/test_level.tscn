@@ -4,21 +4,21 @@
 [ext_resource type="PackedScene" uid="uid://dfk77vuhwhu6b" path="res://scenes/objects/ui.tscn" id="2_io2je"]
 [ext_resource type="Script" path="res://scripts/level_camera.gd" id="3_4t4rh"]
 [ext_resource type="PackedScene" uid="uid://8ks35e64axi" path="res://scenes/objects/ground.tscn" id="4_508ei"]
-[ext_resource type="Texture2D" uid="uid://c2c7imrb6vwvl" path="res://assets/img/ground.png" id="5_rqy5n"]
+[ext_resource type="Texture2D" uid="uid://ok6qbhcdyfln" path="res://assets/img/ground2.png" id="5_ali3w"]
 [ext_resource type="PackedScene" uid="uid://dfw4oa26judjh" path="res://scenes/objects/water.tscn" id="6_74cu4"]
 [ext_resource type="Script" path="res://scripts/explosion_spawner.gd" id="7_drfhm"]
 [ext_resource type="PackedScene" uid="uid://b26amnqmjveyg" path="res://scenes/objects/explosion.tscn" id="8_0tfca"]
 
 [node name="TestLevel" type="Node2D"]
 
-[node name="LoadManager" parent="." node_paths=PackedStringArray("loading_target") instance=ExtResource("1_cccoa")]
+[node name="LoadManager" parent="." node_paths=PackedStringArray("loading_targets") instance=ExtResource("1_cccoa")]
 layer = 2
-loading_target = NodePath("../LevelRoot")
+loading_targets = [NodePath("../LevelRoot"), NodePath("../UI")]
+
+[node name="UI" parent="." node_paths=PackedStringArray("ground") instance=ExtResource("2_io2je")]
+ground = NodePath("../LevelRoot/Ground")
 
 [node name="LevelRoot" type="Node2D" parent="."]
-
-[node name="UI" parent="LevelRoot" node_paths=PackedStringArray("ground") instance=ExtResource("2_io2je")]
-ground = NodePath("../Ground")
 
 [node name="Camera" type="Camera2D" parent="LevelRoot" node_paths=PackedStringArray("camera_anchor")]
 position = Vector2(575, 325)
@@ -29,7 +29,7 @@ anchor_offset = Vector2(0, 50)
 
 [node name="Ground" parent="LevelRoot" node_paths=PackedStringArray("load_manager", "water") instance=ExtResource("4_508ei")]
 texture_filter = 1
-ground_texture = ExtResource("5_rqy5n")
+ground_texture = ExtResource("5_ali3w")
 background_modulate = Color(0.396889, 0.396889, 0.396889, 1)
 transparency_threshold = 0.1
 load_manager = NodePath("../../LoadManager")

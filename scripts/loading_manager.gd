@@ -2,7 +2,7 @@ class_name LoadManager
 extends CanvasLayer
 
 
-@export var loading_target: Node
+@export var loading_targets: Array[Node]
 
 var mutex: Mutex = Mutex.new()
 var load_points: int
@@ -15,8 +15,9 @@ signal done_loading
 
 func _ready():
     # Hide the nodes to be loaded
-    loading_target.process_mode = Node.PROCESS_MODE_DISABLED
-    loading_target.visible = false
+    for node in loading_targets:
+        node.process_mode = Node.PROCESS_MODE_DISABLED
+        node.visible = false
 
 
 func _process(_delta: float) -> void:
@@ -39,7 +40,8 @@ func points_done(points: int) -> void:
 
 
 func done():
-    loading_target.process_mode = Node.PROCESS_MODE_INHERIT
-    loading_target.visible = true
+    for node in loading_targets:
+        node.process_mode = Node.PROCESS_MODE_INHERIT
+        node.visible = true
     done_loading.emit()
     queue_free()
