@@ -14,6 +14,7 @@ class PolygonWithBounds:
 @export var ground_texture: Texture2D
 @export var transparency_threshold: float = 0.8
 @export var quadrant_size: int = 128
+@export var load_manager: LoadManager
 @export_group("Placement")
 @export var water: Node2D
 @export var water_depth: float = 10
@@ -22,20 +23,21 @@ class PolygonWithBounds:
 @export var debug_colors: bool = false
 @export var no_background: bool = false
 
+const EPSILON: float = 0
 @onready var ground_bg: Sprite2D = $GroundBG
 var texture_image: Image
 var alpha_bitmap: BitMap
 var total_polygons: int
-const epslion: float = 0
+var load_thread: Thread
 
+var kernel_steps_width: int
+var kernel_steps_height: int
 
 func _ready() -> void:
 	ground_bg.texture = ground_texture
 	texture_image = ground_texture.get_image()
 	alpha_bitmap = BitMap.new()
 	alpha_bitmap.create_from_image_alpha(texture_image, transparency_threshold)
-
-	find_polygons()
 
 	var img_size = texture_image.get_size()
 	if not skip_placement or not OS.is_debug_build():
@@ -44,20 +46,31 @@ func _ready() -> void:
 			water.position.y - img_size.y + water_depth
 		)
 
+	kernel_steps_width = ceili(alpha_bitmap.get_size().x as float / quadrant_size)
+	kernel_steps_height = ceili(alpha_bitmap.get_size().y as float / quadrant_size)
+
+	load_manager.register_load_points(kernel_steps_width * kernel_steps_height)
+
+	load_thread = Thread.new()
+	load_thread.start(find_polygons)
+
+
+func _exit_tree():
+	load_thread.wait_to_finish()
+
 
 func find_polygons() -> void:
 	var kernel = Rect2i(Vector2i(), Vector2i.ONE * quadrant_size)
-	var kernel_steps_width = ceili(alpha_bitmap.get_size().x as float / quadrant_size)
-	var kernel_steps_height = ceili(alpha_bitmap.get_size().y as float / quadrant_size)
 	total_polygons = 0
 	for x in kernel_steps_width:
 		for y in kernel_steps_height:
 			kernel.position = Vector2i(x, y) * quadrant_size
-			var bitmap_polys: Array[PackedVector2Array] = alpha_bitmap.opaque_to_polygons(kernel, epslion)
+			var bitmap_polys: Array[PackedVector2Array] = alpha_bitmap.opaque_to_polygons(kernel, EPSILON)
 			for raw_poly in bitmap_polys:
 				for p in split_if_necessary(kernel, raw_poly):
 					add_poly_and_coll(p.bounds.position, p.polygon, total_polygons)
 					total_polygons += 1
+			load_manager.points_done(1)
 
 
 func add_poly_and_coll(create_at: Vector2i, polygon: PackedVector2Array, id: int, runtime: bool = false) -> void:
@@ -91,7 +104,9 @@ func detect_missing_holes(kernel: Rect2i, polygon: PackedVector2Array) -> Vector
 	for x in kernel.size.x:
 		for y in kernel.size.y:
 			var test_pos = Vector2i(x, y) + kernel.position
-			if not Vector2Ex.cw_less_than(test_pos, alpha_bitmap.get_size()):
+			if test_pos.x >= alpha_bitmap.get_size().x:
+				continue
+			elif test_pos.y >= alpha_bitmap.get_size().y:
 				continue
 			if not alpha_bitmap.get_bitv(test_pos) and Geometry2D.is_point_in_polygon(Vector2(x + 0.5, y + 0.5), polygon):
 				return test_pos
@@ -104,7 +119,6 @@ func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array) -> Array[Po
 	if hole_pos != -Vector2i.ONE:
 		var subkernel_a: Rect2i = Rect2i(kernel)
 		var subkernel_b: Rect2i = Rect2i(kernel)
-
 		if PolygonUtil.decide_cut_direction_by_aspect(kernel):
 			subkernel_a.end.x = hole_pos.x
 			subkernel_b.size.x = kernel.size.x - subkernel_a.size.x
@@ -113,16 +127,16 @@ func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array) -> Array[Po
 			subkernel_a.end.y = hole_pos.y
 			subkernel_b.size.y = kernel.size.y - subkernel_a.size.y
 			subkernel_b.position.y = hole_pos.y
-		for p in alpha_bitmap.opaque_to_polygons(subkernel_a, epslion):
+		for p in alpha_bitmap.opaque_to_polygons(subkernel_a, EPSILON):
 			results.append_array(split_if_necessary(subkernel_a, p))
-		for p in alpha_bitmap.opaque_to_polygons(subkernel_b, epslion):
+		for p in alpha_bitmap.opaque_to_polygons(subkernel_b, EPSILON):
 			results.append_array(split_if_necessary(subkernel_b, p))
 	else:
 		results.append(PolygonWithBounds.new(polygon, kernel))
 	return results
 
 
-func cut_section(ground_body: StaticBody2D, clip_polygon: PackedVector2Array) -> void:
+func cut_section(ground_body: StaticBody2D, _clip_polygon: PackedVector2Array) -> void:
 	if ground_body not in get_children():
 		push_error("Tried to clip something that wasn't a ground quadrant")
 		return
