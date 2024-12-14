@@ -7,5 +7,6 @@
 script = ExtResource("1_iob33")
 
 [node name="GroundBG" type="Sprite2D" parent="."]
+modulate = Color(0.350543, 0.194144, 0.0257815, 1)
 centered = false
 script = ExtResource("3_kw8fr")

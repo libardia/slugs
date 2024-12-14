@@ -36,7 +36,6 @@ var kernel_steps_height: int
 
 func _ready() -> void:
 	ground_bg.texture = ground_texture
-	ground_bg.modulate = Color(0.5, 0.5, 0.5)
 	texture_image = ground_texture.get_image()
 	alpha_bitmap = BitMap.new()
 	alpha_bitmap.create_from_image_alpha(texture_image, transparency_threshold)

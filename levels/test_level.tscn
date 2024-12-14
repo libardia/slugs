@@ -29,7 +29,6 @@ texture_filter = 1
 ground_texture = ExtResource("4_nc8nq")
 load_manager = NodePath("../../UI Layer/LoadManager")
 water = NodePath("../Water")
-debug_colors = true
 
 [node name="Water" parent="LevelRoot" instance=ExtResource("2_lr8su")]
 position = Vector2(609, 578)
