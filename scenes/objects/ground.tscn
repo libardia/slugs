@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://8ks35e64axi"]
 
-[ext_resource type="Script" path="res://levels/ground.gd" id="1_iob33"]
-[ext_resource type="Script" path="res://levels/editor_ground_bg.gd" id="2_km54s"]
+[ext_resource type="Script" path="res://scripts/ground.gd" id="1_iob33"]
+[ext_resource type="Script" path="res://scripts/editor_ground_bg.gd" id="2_km54s"]
 
 [node name="Ground" type="Node2D"]
 script = ExtResource("1_iob33")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dfw4oa26judjh"]
 
-[ext_resource type="Script" path="res://levels/water.gd" id="1_wg2hg"]
-[ext_resource type="Texture2D" uid="uid://csua4jk4svg0o" path="res://assets/water.png" id="2_jhmsc"]
+[ext_resource type="Script" path="res://scripts/water.gd" id="1_wg2hg"]
+[ext_resource type="Texture2D" uid="uid://csua4jk4svg0o" path="res://assets/img/water.png" id="2_jhmsc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s21sv"]
 size = Vector2(10000, 5000)

@@ -28,7 +28,7 @@ const EPSILON: float = 0
 var texture_image: Image
 var alpha_bitmap: BitMap
 var load_thread: Thread
-var ground_quad_scene: PackedScene = preload("res://levels/ground_quadrant.tscn")
+var ground_quad_scene: PackedScene = preload("res://scenes/objects/ground_quadrant.tscn")
 
 var kernel_steps_width: int
 var kernel_steps_height: int

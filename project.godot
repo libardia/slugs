@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="slugs"
-run/main_scene="res://main_menu/main_menu.tscn"
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 boot_splash/show_image=false
 
 [autoload]
 
-DebugQuit="*res://global/debug_quit.gd"
+DebugQuit="*res://globals/debug_quit.gd"
 
 [dotnet]
 

@@ -1,13 +1,13 @@
 class_name LoadManager
-extends Control
+extends CanvasLayer
 
 
-@export var loading_targets: Array[Node2D]
+@export var loading_targets: Array[Node]
 
 var mutex: Mutex = Mutex.new()
 var load_points: int
 var total_load_points: int
-@onready var progress_bar: ProgressBar = $ProgressBar
+@onready var progress_bar: ProgressBar = $CenterContainer/ProgressBar
 
 
 signal done_loading
