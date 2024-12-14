@@ -7,4 +7,4 @@ extends CollisionPolygon2D
 
 
 func _ready() -> void:
-	polygon = PolygonUtil.generate_circle(Vector2.ZERO, radius, num_sides)
+    polygon = PolygonUtil.generate_circle(Vector2.ZERO, radius, num_sides)
