@@ -12,6 +12,7 @@ class PolygonWithBounds:
 
 @export_group("Generation")
 @export var ground_texture: Texture2D
+@export var background_modulate: Color = Color.WHITE
 @export var transparency_threshold: float = 0.8
 @export var quadrant_size: int = 128
 @export var load_manager: LoadManager
@@ -37,6 +38,7 @@ var kernel_steps_height: int
 func _ready() -> void:
     if not no_background or not OS.is_debug_build():
         ground_bg.texture = ground_texture
+        ground_bg.modulate = background_modulate
     texture_image = ground_texture.get_image()
     alpha_bitmap = BitMap.new()
     alpha_bitmap.create_from_image_alpha(texture_image, transparency_threshold)

@@ -30,14 +30,11 @@ anchor_offset = Vector2(0, 50)
 [node name="Ground" parent="LevelRoot" node_paths=PackedStringArray("load_manager", "water") instance=ExtResource("4_508ei")]
 texture_filter = 1
 ground_texture = ExtResource("5_4vxol")
+background_modulate = Color(0.396889, 0.396889, 0.396889, 1)
 transparency_threshold = 0.1
-quadrant_size = null
 load_manager = NodePath("../../LoadManager")
 water = NodePath("../Water")
-water_depth = null
-skip_placement = null
 debug_colors = true
-no_background = null
 
 [node name="Water" parent="LevelRoot" instance=ExtResource("6_74cu4")]
 position = Vector2(609, 578)
