@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://ciryi4bnwfufp"]
+
+[ext_resource type="Script" path="res://levels/ground_quadrant.gd" id="1_p6jv0"]
+
+[node name="GroundQuadrant" type="StaticBody2D"]
+collision_mask = 7
+script = ExtResource("1_p6jv0")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]

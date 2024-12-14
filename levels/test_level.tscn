@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://8ks35e64axi" path="res://levels/ground.tscn" id="1_ixi0o"]
 [ext_resource type="Script" path="res://levels/camera.gd" id="1_lpgqm"]
 [ext_resource type="PackedScene" uid="uid://dfw4oa26judjh" path="res://levels/water.tscn" id="2_lr8su"]
-[ext_resource type="Texture2D" uid="uid://bsithnhmnealw" path="res://assets/ground3.png" id="4_nc8nq"]
+[ext_resource type="Texture2D" uid="uid://ok6qbhcdyfln" path="res://assets/ground2.png" id="4_02rea"]
 [ext_resource type="Script" path="res://levels/explosion_spawner.gd" id="5_2qweq"]
 [ext_resource type="PackedScene" uid="uid://b26amnqmjveyg" path="res://levels/explosion.tscn" id="6_am35b"]
 
@@ -26,9 +26,10 @@ anchor_offset = Vector2(0, 150)
 
 [node name="Ground" parent="LevelRoot" node_paths=PackedStringArray("load_manager", "water") instance=ExtResource("1_ixi0o")]
 texture_filter = 1
-ground_texture = ExtResource("4_nc8nq")
+ground_texture = ExtResource("4_02rea")
 load_manager = NodePath("../../UI Layer/LoadManager")
 water = NodePath("../Water")
+debug_colors = true
 
 [node name="Water" parent="LevelRoot" instance=ExtResource("2_lr8su")]
 position = Vector2(609, 578)

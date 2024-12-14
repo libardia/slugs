@@ -27,15 +27,16 @@ const EPSILON: float = 0
 @onready var ground_bg: Sprite2D = $GroundBG
 var texture_image: Image
 var alpha_bitmap: BitMap
-var total_polygons: int
 var load_thread: Thread
+var ground_quad_scene: PackedScene = preload("res://levels/ground_quadrant.tscn")
 
 var kernel_steps_width: int
 var kernel_steps_height: int
 
 
 func _ready() -> void:
-    ground_bg.texture = ground_texture
+    if not no_background or not OS.is_debug_build():
+        ground_bg.texture = ground_texture
     texture_image = ground_texture.get_image()
     alpha_bitmap = BitMap.new()
     alpha_bitmap.create_from_image_alpha(texture_image, transparency_threshold)
@@ -62,43 +63,22 @@ func _exit_tree():
 
 func find_polygons() -> void:
     var kernel = Rect2i(Vector2i(), Vector2i.ONE * quadrant_size)
-    total_polygons = 0
     for x in kernel_steps_width:
         for y in kernel_steps_height:
             kernel.position = Vector2i(x, y) * quadrant_size
             var bitmap_polys: Array[PackedVector2Array] = alpha_bitmap.opaque_to_polygons(kernel, EPSILON)
             for raw_poly in bitmap_polys:
                 for p in split_if_necessary(kernel, raw_poly):
-                    add_poly_and_coll(p.bounds.position, p.polygon, total_polygons)
-                    total_polygons += 1
+                    add_poly_and_coll(p.bounds.position, p.polygon)
             load_manager.points_done(1)
 
 
-func add_poly_and_coll(create_at: Vector2i, polygon: PackedVector2Array, id: int, runtime: bool = false) -> void:
-    var name_postfix = "_run" if runtime else ""
-
-    var static_body = StaticBody2D.new()
-    static_body.position = create_at
-    static_body.collision_layer = 0b1
-    static_body.collision_mask = 0b111
-    static_body.name = str("GroundBody", id, name_postfix)
-    call_deferred("add_child", static_body)
-
-    var poly = Polygon2D.new()
-    if debug_colors and OS.is_debug_build():
-        poly.color = Color(randf(), randf(), randf())
-    else:
-        poly.texture = ground_texture
-        poly.texture_offset = create_at
-        poly.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-    poly.set_deferred("polygon", polygon)
-    poly.name = str("GroundPoly", id, name_postfix)
-    static_body.call_deferred("add_child", poly)
-
-    var poly_coll = CollisionPolygon2D.new()
-    poly_coll.set_deferred("polygon", polygon)
-    poly_coll.name = str("GroundColl", id, name_postfix)
-    static_body.call_deferred("add_child", poly_coll)
+func add_poly_and_coll(create_at: Vector2i, polygon: PackedVector2Array) -> void:
+    var ground_quad: GroundQuadrant = ground_quad_scene.instantiate()
+    ground_quad.position = create_at
+    ground_quad.ground_texture_offset = create_at
+    ground_quad.polygon_data = polygon
+    call_deferred("add_child", ground_quad)
 
 
 func detect_missing_holes(kernel: Rect2i, polygon: PackedVector2Array) -> Vector2i:
@@ -136,9 +116,3 @@ func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array) -> Array[Po
     if results.is_empty():
         results.append(PolygonWithBounds.new(polygon, kernel))
     return results
-
-
-func cut_section(ground_body: StaticBody2D, _clip_polygon: PackedVector2Array) -> void:
-    if ground_body not in get_children():
-        push_error("Tried to clip something that wasn't a ground quadrant")
-        return
