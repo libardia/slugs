@@ -6,9 +6,10 @@ extends StaticBody2D
 @onready var polygon_coll: CollisionPolygon2D = get_child(1)
 @onready var ground: Ground = get_parent()
 
-
 var polygon_data: PackedVector2Array
 var ground_texture_offset: Vector2
+var remove_small: bool
+var min_area: float
 
 
 func _ready():
@@ -38,6 +39,9 @@ func clip(clip_polygon: PackedVector2Array, clip_polygon_offset: Vector2):
             new_polys.append_array(Geometry2D.clip_polygons(p, offset_poly))
         for p in sides.side_b:
             new_polys.append_array(Geometry2D.clip_polygons(p, offset_poly))
+    # Take out polygons with tiny area
+    if remove_small:
+        new_polys = new_polys.filter(func(e): return PolygonUtil.polygon_area(e) > min_area)
     if new_polys.is_empty():
         queue_free()
     else:
@@ -45,4 +49,4 @@ func clip(clip_polygon: PackedVector2Array, clip_polygon_offset: Vector2):
         polygon_coll.set_deferred("polygon", new_polys[0])
         if new_polys.size() > 1:
             for i in range(1, new_polys.size()):
-                ground.add_poly_and_coll(position, new_polys[i])
+                ground.add_quad(position, new_polys[i])

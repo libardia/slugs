@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c4umgopjh7t0u" path="res://scenes/objects/debug_tools.tscn" id="3_e5ts3"]
 [ext_resource type="Script" path="res://scripts/level_camera.gd" id="3_y686w"]
 [ext_resource type="PackedScene" uid="uid://8ks35e64axi" path="res://scenes/objects/ground.tscn" id="4_2eqed"]
-[ext_resource type="Texture2D" uid="uid://c2c7imrb6vwvl" path="res://assets/img/ground.png" id="5_ha2e4"]
+[ext_resource type="Texture2D" uid="uid://bsithnhmnealw" path="res://assets/img/ground3.png" id="5_p5lrp"]
 [ext_resource type="PackedScene" uid="uid://dfw4oa26judjh" path="res://scenes/objects/water.tscn" id="6_s72xo"]
 [ext_resource type="PackedScene" uid="uid://bx55820kncd0o" path="res://scenes/objects/slug.tscn" id="8_doslx"]
 
@@ -28,11 +28,10 @@ camera_anchor = NodePath("../Water")
 anchor_vertical = 2
 anchor_offset = Vector2(0, 50)
 
-[node name="Ground" parent="LevelRoot" node_paths=PackedStringArray("load_manager", "water") instance=ExtResource("4_2eqed")]
-ground_texture = ExtResource("5_ha2e4")
+[node name="Ground" parent="LevelRoot" node_paths=PackedStringArray("water") instance=ExtResource("4_2eqed")]
+ground_texture = ExtResource("5_p5lrp")
 background_modulate = Color(0.396889, 0.396889, 0.396889, 1)
 transparency_threshold = 0.1
-load_manager = NodePath("../../LoadManager")
 water = NodePath("../Water")
 debug_colors = true
 

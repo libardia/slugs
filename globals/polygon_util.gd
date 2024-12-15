@@ -100,3 +100,16 @@ static func decide_cut_direction_by_center(rect: Rect2, cut_pos: Vector2) -> boo
 
 static func decide_cut_direction_by_aspect(rect: Rect2) -> bool:
     return rect.size.x > rect.size.y
+
+
+static func polygon_area(polygon: PackedVector2Array) -> float:
+    # Area of arbitrary polygon algorithm
+    var num_points := polygon.size()
+    var s1 := 0.0
+    var s2 := 0.0
+    for i in num_points:
+        var v := polygon[i]
+        var nv = polygon[(i - 1) % num_points]
+        s1 += v.x * nv.y
+        s2 += v.y * nv.x
+    return (s2 - s1) * 0.5

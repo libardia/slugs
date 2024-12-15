@@ -15,7 +15,8 @@ class PolygonWithBounds:
 @export var background_modulate := Color.WHITE
 @export var transparency_threshold := 0.8
 @export var quadrant_size := 128
-@export var load_manager: LoadManager
+@export var remove_small_quads := true
+@export var minimum_quadrant_area := 1.0
 @export_group("Placement")
 @export var water: Node2D
 @export var water_depth := 10.0
@@ -24,7 +25,8 @@ class PolygonWithBounds:
 @export var debug_colors := false
 @export var no_background := false
 
-const EPSILON: float = 0
+const EPSILON := 0.0
+const LP_PER_QUAD := 1
 @onready var ground_bg: Sprite2D = $GroundBG
 var texture_image: Image
 var alpha_bitmap: BitMap
@@ -33,7 +35,6 @@ var ground_quad_scene: PackedScene = preload("res://scenes/objects/ground_quadra
 
 var kernel_steps_width: int
 var kernel_steps_height: int
-
 
 func _ready() -> void:
     if not no_background or not OS.is_debug_build():
@@ -53,7 +54,8 @@ func _ready() -> void:
     kernel_steps_width = ceili(alpha_bitmap.get_size().x as float / quadrant_size)
     kernel_steps_height = ceili(alpha_bitmap.get_size().y as float / quadrant_size)
 
-    load_manager.register_load_points(kernel_steps_width * kernel_steps_height)
+    if LoadManager.has_instance():
+        LoadManager.register_load_points(self, kernel_steps_width * kernel_steps_height * LP_PER_QUAD)
 
     load_thread = Thread.new()
     load_thread.start(find_polygons)
@@ -71,15 +73,19 @@ func find_polygons() -> void:
             var bitmap_polys := alpha_bitmap.opaque_to_polygons(kernel, EPSILON)
             for raw_poly in bitmap_polys:
                 for p in split_if_necessary(kernel, raw_poly):
-                    add_poly_and_coll(p.bounds.position, p.polygon)
-            load_manager.points_done(1)
+                    add_quad(p.bounds.position, p.polygon)
+            if LoadManager.has_instance():
+                LoadManager.points_done(self, LP_PER_QUAD)
+    LoadManager.report_done(self)
 
 
-func add_poly_and_coll(create_at: Vector2i, polygon: PackedVector2Array) -> void:
+func add_quad(create_at: Vector2i, polygon: PackedVector2Array) -> void:
     var ground_quad: GroundQuadrant = ground_quad_scene.instantiate()
     ground_quad.position = create_at
     ground_quad.ground_texture_offset = create_at
     ground_quad.polygon_data = polygon
+    ground_quad.remove_small = remove_small_quads
+    ground_quad.min_area = minimum_quadrant_area
     add_child.call_deferred(ground_quad)
 
 
