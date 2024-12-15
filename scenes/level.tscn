@@ -15,31 +15,31 @@ texture_filter = 3
 [node name="LoadManager" parent="." node_paths=PackedStringArray("loading_targets") instance=ExtResource("1_h246a")]
 layer = 2
 visible = false
-loading_targets = [NodePath("../LevelRoot"), NodePath("../UI")]
+loading_targets = [NodePath("../LoadingRoot"), NodePath("../UI")]
 
 [node name="UI" parent="." node_paths=PackedStringArray("ground") instance=ExtResource("2_cblfs")]
-ground = NodePath("../LevelRoot/Ground")
+ground = NodePath("../LoadingRoot/Ground")
 
-[node name="LevelRoot" type="Node2D" parent="."]
+[node name="LoadingRoot" type="Node2D" parent="."]
 
-[node name="Camera" type="Camera2D" parent="LevelRoot" node_paths=PackedStringArray("camera_anchor")]
+[node name="Camera" type="Camera2D" parent="LoadingRoot" node_paths=PackedStringArray("camera_anchor")]
 script = ExtResource("3_y686w")
 camera_anchor = NodePath("../Water")
 anchor_vertical = 2
 anchor_offset = Vector2(0, 50)
 
-[node name="Ground" parent="LevelRoot" node_paths=PackedStringArray("water") instance=ExtResource("4_2eqed")]
+[node name="Ground" parent="LoadingRoot" node_paths=PackedStringArray("water") instance=ExtResource("4_2eqed")]
 ground_texture = ExtResource("5_p5lrp")
 background_modulate = Color(0.396889, 0.396889, 0.396889, 1)
 transparency_threshold = 0.1
 water = NodePath("../Water")
 debug_colors = true
 
-[node name="Water" parent="LevelRoot" instance=ExtResource("6_s72xo")]
+[node name="Water" parent="LoadingRoot" instance=ExtResource("6_s72xo")]
 position = Vector2(609, 578)
 
-[node name="Slug" parent="LevelRoot" instance=ExtResource("8_doslx")]
+[node name="Slug" parent="LoadingRoot" instance=ExtResource("8_doslx")]
 position = Vector2(623, 134)
 
-[node name="DebugTools" parent="LevelRoot" node_paths=PackedStringArray("player_ref") instance=ExtResource("3_e5ts3")]
+[node name="DebugTools" parent="LoadingRoot" node_paths=PackedStringArray("player_ref") instance=ExtResource("3_e5ts3")]
 player_ref = NodePath("../Slug")
