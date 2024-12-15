@@ -1,3 +1,4 @@
+class_name Slug
 extends CharacterBody2D
 
 
@@ -6,6 +7,7 @@ extends CharacterBody2D
 @export var high_jump_velocity := Vector2(50, -400)
 
 @onready var jump_timer: Timer = $JumpTimer
+@onready var sprite: Sprite2D = $Sprite2D
 
 var facing := 1.0
 var next_jump := Vector2.ZERO
@@ -45,8 +47,9 @@ func _physics_process(delta: float) -> void:
     # Get the input direction and handle the movement/deceleration.
     if is_on_floor():
         var move_direction := Input.get_axis("move-left", "move-right")
-        if move_direction and jump_timer.is_stopped():
-            facing = move_direction
+        if move_direction and not going_to_jump:
+            facing = 1 if move_direction > 0 else -1
+            sprite.scale.x = facing
             velocity.x = move_direction * walk_speed
         else:
             velocity.x = move_toward(velocity.x, 0, walk_speed)

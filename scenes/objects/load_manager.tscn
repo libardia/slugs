@@ -5,6 +5,14 @@
 [node name="LoadManager" type="CanvasLayer"]
 script = ExtResource("1_0t7vy")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.321728, 0.321728, 0.321728, 1)
+
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0

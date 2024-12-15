@@ -6,6 +6,8 @@ enum AnchorVert { CENTER, TOP, BOTTOM }
 enum AnchorHorz { CENTER, LEFT, RIGHT }
 
 
+static var inst: CustomCamera
+
 @export_group("Initial positioning")
 @export var camera_anchor: Node2D
 @export var anchor_vertical: AnchorVert
@@ -22,6 +24,7 @@ var dragging := false
 
 
 func _ready() -> void:
+    inst = self
     position = camera_anchor.position + anchor_offset
     var half_size = get_viewport_rect().size * 0.5
     match anchor_vertical:
@@ -34,6 +37,10 @@ func _ready() -> void:
             position.x += half_size.x
         AnchorHorz.RIGHT:
             position.x -= half_size.x
+
+
+func _exit_tree() -> void:
+    inst = null
 
 
 func _input(event: InputEvent) -> void:
@@ -58,3 +65,8 @@ func _input(event: InputEvent) -> void:
 
 func viewport_pos_to_scene(viewport_position: Vector2) -> Vector2:
     return ((viewport_position - get_viewport_rect().size * 0.5) / zoom) + position
+
+
+static func global_mouse_position() -> Vector2:
+    assert(is_instance_valid(inst), "Camera instance was invalid; you can only call this method in a scene that includes this camera")
+    return inst.get_global_mouse_position()

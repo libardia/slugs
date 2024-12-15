@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bx55820kncd0o"]
 
 [ext_resource type="Texture2D" uid="uid://cu7ujet065g68" path="res://assets/img/slug.png" id="1_dy0ey"]
-[ext_resource type="Script" path="res://scenes/objects/slug.gd" id="1_r6kxx"]
+[ext_resource type="Script" path="res://scripts/slug.gd" id="1_r6kxx"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_smt87"]
 
@@ -9,6 +9,7 @@
 slide_on_ceiling = false
 floor_constant_speed = true
 floor_max_angle = 1.22173
+floor_snap_length = 10.0
 script = ExtResource("1_r6kxx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

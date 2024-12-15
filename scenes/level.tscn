@@ -2,11 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://ddoc4r5k0vax" path="res://scenes/objects/load_manager.tscn" id="1_h246a"]
 [ext_resource type="PackedScene" uid="uid://dfk77vuhwhu6b" path="res://scenes/objects/ui.tscn" id="2_cblfs"]
+[ext_resource type="PackedScene" uid="uid://c4umgopjh7t0u" path="res://scenes/objects/debug_tools.tscn" id="3_e5ts3"]
 [ext_resource type="Script" path="res://scripts/level_camera.gd" id="3_y686w"]
 [ext_resource type="PackedScene" uid="uid://8ks35e64axi" path="res://scenes/objects/ground.tscn" id="4_2eqed"]
-[ext_resource type="Texture2D" uid="uid://bsithnhmnealw" path="res://assets/img/ground3.png" id="5_pqpar"]
+[ext_resource type="Texture2D" uid="uid://c2c7imrb6vwvl" path="res://assets/img/ground.png" id="5_ha2e4"]
 [ext_resource type="PackedScene" uid="uid://dfw4oa26judjh" path="res://scenes/objects/water.tscn" id="6_s72xo"]
-[ext_resource type="PackedScene" uid="uid://c4umgopjh7t0u" path="res://scenes/objects/constant_cut.tscn" id="7_2pexx"]
 [ext_resource type="PackedScene" uid="uid://bx55820kncd0o" path="res://scenes/objects/slug.tscn" id="8_doslx"]
 
 [node name="Level" type="Node2D"]
@@ -14,14 +14,13 @@ texture_filter = 3
 
 [node name="LoadManager" parent="." node_paths=PackedStringArray("loading_targets") instance=ExtResource("1_h246a")]
 layer = 2
+visible = false
 loading_targets = [NodePath("../LevelRoot"), NodePath("../UI")]
 
 [node name="UI" parent="." node_paths=PackedStringArray("ground") instance=ExtResource("2_cblfs")]
 ground = NodePath("../LevelRoot/Ground")
 
 [node name="LevelRoot" type="Node2D" parent="."]
-
-[node name="ConstantCut" parent="LevelRoot" instance=ExtResource("7_2pexx")]
 
 [node name="Camera" type="Camera2D" parent="LevelRoot" node_paths=PackedStringArray("camera_anchor")]
 script = ExtResource("3_y686w")
@@ -30,7 +29,7 @@ anchor_vertical = 2
 anchor_offset = Vector2(0, 50)
 
 [node name="Ground" parent="LevelRoot" node_paths=PackedStringArray("load_manager", "water") instance=ExtResource("4_2eqed")]
-ground_texture = ExtResource("5_pqpar")
+ground_texture = ExtResource("5_ha2e4")
 background_modulate = Color(0.396889, 0.396889, 0.396889, 1)
 transparency_threshold = 0.1
 load_manager = NodePath("../../LoadManager")
@@ -42,3 +41,6 @@ position = Vector2(609, 578)
 
 [node name="Slug" parent="LevelRoot" instance=ExtResource("8_doslx")]
 position = Vector2(623, 134)
+
+[node name="DebugTools" parent="LevelRoot" node_paths=PackedStringArray("player_ref") instance=ExtResource("3_e5ts3")]
+player_ref = NodePath("../Slug")

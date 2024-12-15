@@ -14,10 +14,11 @@ signal done_loading
 
 
 func _ready():
+    # Make sure the loading screen is shown
+    visible = true
     # Hide the nodes to be loaded
     for node in loading_targets:
         node.process_mode = Node.PROCESS_MODE_DISABLED
-        node.visible = false
 
 
 func _process(_delta: float) -> void:
@@ -42,6 +43,5 @@ func points_done(points: int) -> void:
 func done():
     for node in loading_targets:
         node.process_mode = Node.PROCESS_MODE_INHERIT
-        node.visible = true
     done_loading.emit()
     queue_free()
