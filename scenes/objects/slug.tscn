@@ -6,6 +6,8 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_smt87"]
 
 [node name="Slug" type="CharacterBody2D"]
+slide_on_ceiling = false
+floor_constant_speed = true
 floor_max_angle = 1.22173
 script = ExtResource("1_r6kxx")
 
@@ -14,3 +16,7 @@ texture = ExtResource("1_dy0ey")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_smt87")
+
+[node name="JumpTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
