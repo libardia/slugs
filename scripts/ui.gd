@@ -5,7 +5,7 @@ extends CanvasLayer
 
 
 @onready var total_quads: Label = $TotalQuads
-@onready var tq_format: String = total_quads.text
+@onready var tq_format := total_quads.text
 
 
 func _process(_delta):

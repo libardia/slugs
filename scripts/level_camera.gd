@@ -12,13 +12,13 @@ enum AnchorHorz { CENTER, LEFT, RIGHT }
 @export var anchor_horizontal: AnchorHorz
 @export var anchor_offset: Vector2
 @export_group("Control")
-@export var zoom_enabled: bool = true
-@export var zoom_step: float = 0.1
+@export var zoom_enabled := true
+@export var zoom_step := 0.1
 
 
-var dragging: bool = false
-@onready var zoom_mult: float = 1 - zoom_step
-@onready var zoom_mult_inv: float = 1 / zoom_mult
+var dragging := false
+@onready var zoom_mult := 1 - zoom_step
+@onready var zoom_mult_inv := 1 / zoom_mult
 
 
 func _ready() -> void:

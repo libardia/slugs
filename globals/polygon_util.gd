@@ -6,7 +6,7 @@ class CutResult:
     var side_b: Array[PackedVector2Array]
 
 
-static var circle_cache: Dictionary = {}
+static var circle_cache := {}
 
 
 static func generate_circle(position: Vector2, radius: float, num_sides: int) -> PackedVector2Array:
@@ -14,8 +14,8 @@ static func generate_circle(position: Vector2, radius: float, num_sides: int) ->
     if k in circle_cache:
         return circle_cache[k]
 
-    var angle_delta: float = (PI * 2) / num_sides
-    var vector: Vector2 = Vector2(radius, 0)
+    var angle_delta := (PI * 2) / num_sides
+    var vector := Vector2(radius, 0)
     var polygon: PackedVector2Array
 
     for _i in num_sides:
@@ -27,15 +27,15 @@ static func generate_circle(position: Vector2, radius: float, num_sides: int) ->
 
 
 static func offset_polygon(polygon: PackedVector2Array, offset: Vector2) -> PackedVector2Array:
-    var result: PackedVector2Array = polygon.duplicate()
+    var result := polygon.duplicate()
     for i in result.size():
         result[i] += offset
     return result
 
 
 static func polygon_bounds(polygon: PackedVector2Array) -> Rect2:
-    var min_point: Vector2 = polygon[0]
-    var max_point: Vector2 = polygon[0]
+    var min_point := polygon[0]
+    var max_point := polygon[0]
     for point in polygon:
         if min_point.x > point.x:
             min_point.x = point.x
@@ -77,7 +77,7 @@ static func polygon_bounds_as_polygon(polygon: PackedVector2Array) -> PackedVect
 # Returns an array of arrays of PackedVector2Arrays, representing the two pieces the polygon will be cut into.
 # First result is the top or left side, the second result is the bottom or right side (depending on vertical).
 static func cut_polygon(polygon: PackedVector2Array, cut_point: Vector2) -> CutResult:
-    var bounds: Rect2 = polygon_bounds(polygon)
+    var bounds := polygon_bounds(polygon)
     if decide_cut_direction_by_aspect(bounds):
         bounds.end.x = cut_point.x
         bounds = bounds.grow_individual(1, 1, 0, 1)
@@ -85,7 +85,7 @@ static func cut_polygon(polygon: PackedVector2Array, cut_point: Vector2) -> CutR
         bounds.end.y = cut_point.y
         bounds = bounds.grow_individual(1, 1, 1, 0)
     var clip = rect_to_polygon(bounds)
-    var cut_result: CutResult = CutResult.new()
+    var cut_result := CutResult.new()
     cut_result.side_a = Geometry2D.intersect_polygons(polygon, clip)
     cut_result.side_b = Geometry2D.clip_polygons(polygon, clip)
     return cut_result

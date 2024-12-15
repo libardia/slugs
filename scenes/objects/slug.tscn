@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bx55820kncd0o"]
+
+[ext_resource type="Texture2D" uid="uid://cu7ujet065g68" path="res://assets/img/slug.png" id="1_dy0ey"]
+[ext_resource type="Script" path="res://scenes/objects/slug.gd" id="1_r6kxx"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_smt87"]
+
+[node name="Slug" type="CharacterBody2D"]
+floor_max_angle = 1.22173
+script = ExtResource("1_r6kxx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_dy0ey")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_smt87")

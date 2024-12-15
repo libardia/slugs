@@ -23,7 +23,7 @@ func _ready():
 
 
 func clip(clip_polygon: PackedVector2Array, clip_polygon_offset: Vector2):
-    var offset_poly: PackedVector2Array = PolygonUtil.offset_polygon(clip_polygon, clip_polygon_offset)
+    var offset_poly := PolygonUtil.offset_polygon(clip_polygon, clip_polygon_offset)
 
     var new_polys = Geometry2D.clip_polygons(polygon_img.polygon, offset_poly)
     var enclosed = false

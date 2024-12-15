@@ -12,17 +12,17 @@ class PolygonWithBounds:
 
 @export_group("Generation")
 @export var ground_texture: Texture2D
-@export var background_modulate: Color = Color.WHITE
-@export var transparency_threshold: float = 0.8
-@export var quadrant_size: int = 128
+@export var background_modulate := Color.WHITE
+@export var transparency_threshold := 0.8
+@export var quadrant_size := 128
 @export var load_manager: LoadManager
 @export_group("Placement")
 @export var water: Node2D
-@export var water_depth: float = 10
+@export var water_depth := 10.0
 @export_group("Debug")
-@export var skip_placement: bool = false
-@export var debug_colors: bool = false
-@export var no_background: bool = false
+@export var skip_placement := false
+@export var debug_colors := false
+@export var no_background := false
 
 const EPSILON: float = 0
 @onready var ground_bg: Sprite2D = $GroundBG
@@ -68,7 +68,7 @@ func find_polygons() -> void:
     for x in kernel_steps_width:
         for y in kernel_steps_height:
             kernel.position = Vector2i(x, y) * quadrant_size
-            var bitmap_polys: Array[PackedVector2Array] = alpha_bitmap.opaque_to_polygons(kernel, EPSILON)
+            var bitmap_polys := alpha_bitmap.opaque_to_polygons(kernel, EPSILON)
             for raw_poly in bitmap_polys:
                 for p in split_if_necessary(kernel, raw_poly):
                     add_poly_and_coll(p.bounds.position, p.polygon)
@@ -98,10 +98,10 @@ func detect_missing_holes(kernel: Rect2i, polygon: PackedVector2Array) -> Vector
 
 func split_if_necessary(kernel: Rect2i, polygon: PackedVector2Array) -> Array[PolygonWithBounds]:
     var results: Array[PolygonWithBounds] = []
-    var hole_pos: Vector2i = detect_missing_holes(kernel, polygon)
+    var hole_pos := detect_missing_holes(kernel, polygon)
     if hole_pos != -Vector2i.ONE:
-        var subkernel_a: Rect2i = kernel
-        var subkernel_b: Rect2i = kernel
+        var subkernel_a := kernel
+        var subkernel_b := kernel
         if PolygonUtil.decide_cut_direction_by_aspect(kernel):
             subkernel_a.end.x = hole_pos.x
             subkernel_b.size.x = kernel.size.x - subkernel_a.size.x

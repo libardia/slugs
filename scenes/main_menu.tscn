@@ -29,7 +29,7 @@ size_flags_vertical = 4
 theme_override_font_sizes/font_size = 36
 text = "Start"
 script = ExtResource("2_t40l7")
-scene_file = "res://scenes/test_level.tscn"
+scene_file = "res://scenes/level.tscn"
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 custom_minimum_size = Vector2(250, 0)

@@ -2,12 +2,12 @@
 extends CollisionPolygon2D
 
 
-@export var radius: float = 10:
+@export var radius := 10.0:
     set(value):
         radius = value
         update()
 
-@export var num_sides: int = 20:
+@export var num_sides := 20:
     set(value):
         num_sides = value
         update()

@@ -1,7 +1,7 @@
 extends Area2D
 
 
-@export var time_to_live: float = 0.1
+@export var time_to_live := 0.1
 
 @onready var collider: CollisionPolygon2D = $ExplosionCollision
 
