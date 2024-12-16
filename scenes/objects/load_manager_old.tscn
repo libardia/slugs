@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" path="res://scripts/loading_manager.gd" id="1_0t7vy"]
 
-[node name="LoadManager" type="CanvasLayer"]
+[node name="LoadManagerOld" type="CanvasLayer"]
+layer = 2
+visible = false
 script = ExtResource("1_0t7vy")
 
 [node name="ColorRect" type="ColorRect" parent="."]

@@ -1,8 +1,8 @@
-class_name LoadManager
+class_name LoadManagerOld
 extends CanvasLayer
 
 
-static var inst: LoadManager = null
+static var inst: LoadManagerOld = null
 
 @export var loading_targets: Array[Node]
 
@@ -25,7 +25,7 @@ func _ready():
 
 
 func _exit_tree() -> void:
-    print("Cleaning up instance of LoadManager")
+    print("Cleaning up instance of LoadManagerOld")
     inst = null
 
 
@@ -43,7 +43,7 @@ static func has_instance() -> bool:
 
 
 static func assert_valid():
-    assert(has_instance(), "No instance of LoadManager currently exists.")
+    assert(has_instance(), "No instance of LoadManagerOld currently exists.")
 
 
 static func register_load_points(source: Node, points: int) -> void:
