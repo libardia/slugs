@@ -6,7 +6,6 @@ extends LoadingScreen
 
 
 func _ready():
-    print("loading screen inst")
     progress_bar.min_value = 0
     progress_bar.max_value = 1
     loading_screen_ready.emit()

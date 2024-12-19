@@ -8,10 +8,6 @@ signal loading_screen_ready
 signal loading_screen_finished
 
 
-func _ready():
-    print("loading screen base")
-
-
 @warning_ignore("unused_parameter")
 func _on_progress_changed(progress: float):
     pass
