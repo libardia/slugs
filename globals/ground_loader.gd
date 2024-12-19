@@ -14,4 +14,3 @@ func capture_dialog(status: bool, selected_paths: PackedStringArray, _selected_f
         var img := Image.load_from_file(selected_paths[0])
         var tex := ImageTexture.create_from_image(img)
         custom_ground_texture = tex
-    print(status)

@@ -13,6 +13,7 @@
 texture_filter = 3
 
 [node name="LoadManagerOld" parent="." node_paths=PackedStringArray("loading_targets") instance=ExtResource("1_h246a")]
+layer = 1
 loading_targets = [NodePath("../LoadingRoot"), NodePath("../UI")]
 
 [node name="UI" parent="." node_paths=PackedStringArray("ground") instance=ExtResource("2_cblfs")]

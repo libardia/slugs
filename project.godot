@@ -19,6 +19,8 @@ boot_splash/show_image=false
 
 DebugQuit="*res://globals/debug_quit.gd"
 GroundLoader="*res://globals/ground_loader.gd"
+LoadManager="*res://globals/load_manager.gd"
+GlobalData="*res://globals/global_data.gd"
 
 [dotnet]
 
