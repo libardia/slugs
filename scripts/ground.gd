@@ -56,8 +56,7 @@ func _ready() -> void:
     kernel_steps_width = ceili(alpha_bitmap.get_size().x as float / quadrant_size)
     kernel_steps_height = ceili(alpha_bitmap.get_size().y as float / quadrant_size)
 
-    if LoadManagerOld.has_instance():
-        LoadManagerOld.register_load_points(self, kernel_steps_width * kernel_steps_height * LP_PER_QUAD)
+    LoadManager.register_load_points(self, kernel_steps_width * kernel_steps_height * LP_PER_QUAD)
 
     load_thread = Thread.new()
     load_thread.start(find_polygons)
@@ -76,9 +75,8 @@ func find_polygons() -> void:
             for raw_poly in bitmap_polys:
                 for p in split_if_necessary(kernel, raw_poly):
                     add_quad(p.bounds.position, p.polygon)
-            if LoadManagerOld.has_instance():
-                LoadManagerOld.points_done(self, LP_PER_QUAD)
-    LoadManagerOld.report_done(self)
+            LoadManager.report_points_done(LP_PER_QUAD)
+    LoadManager.report_node_done(self)
 
 
 func add_quad(create_at: Vector2i, polygon: PackedVector2Array) -> void:

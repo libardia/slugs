@@ -28,6 +28,14 @@ func _ready():
     process_mode = PROCESS_MODE_DISABLED
 
 
+func is_loading_file() -> bool:
+    return currently_loading == LoadingType.FILE
+
+
+func is_loading_ready() -> bool:
+    return currently_loading == LoadingType.READY
+
+
 func load_scene(scene_path: String, use_sub_threads: bool = false):
     sub_threads = use_sub_threads
     loaded_scene_path = scene_path
@@ -52,6 +60,8 @@ func start_load():
 
 
 func register_load_points(source: Node, points: float):
+    if not is_loading_ready():
+        return
     mutex.lock()
     if source not in nodes_waiting:
         nodes_waiting.append(source)
@@ -60,12 +70,16 @@ func register_load_points(source: Node, points: float):
 
 
 func report_points_done(points: float):
+    if not is_loading_ready():
+        return
     mutex.lock()
     ready_loading_points += points
     mutex.unlock()
 
 
 func report_node_done(node: Node):
+    if not is_loading_ready():
+        return
     mutex.lock()
     nodes_waiting.erase(node)
     mutex.unlock()

@@ -1,45 +1,38 @@
-[gd_scene load_steps=9 format=3 uid="uid://bsygdjn7r7v51"]
+[gd_scene load_steps=8 format=3 uid="uid://bsygdjn7r7v51"]
 
-[ext_resource type="PackedScene" uid="uid://ddoc4r5k0vax" path="res://scenes/objects/load_manager_old.tscn" id="1_h246a"]
 [ext_resource type="PackedScene" uid="uid://dfk77vuhwhu6b" path="res://scenes/objects/ui.tscn" id="2_cblfs"]
 [ext_resource type="PackedScene" uid="uid://c4umgopjh7t0u" path="res://scenes/objects/debug_tools.tscn" id="3_e5ts3"]
 [ext_resource type="Script" path="res://scripts/level_camera.gd" id="3_y686w"]
 [ext_resource type="PackedScene" uid="uid://8ks35e64axi" path="res://scenes/objects/ground.tscn" id="4_2eqed"]
-[ext_resource type="Texture2D" uid="uid://bsithnhmnealw" path="res://assets/img/ground3.png" id="5_p5lrp"]
+[ext_resource type="Texture2D" uid="uid://ok6qbhcdyfln" path="res://assets/img/ground2.png" id="5_06ib1"]
 [ext_resource type="PackedScene" uid="uid://dfw4oa26judjh" path="res://scenes/objects/water.tscn" id="6_s72xo"]
 [ext_resource type="PackedScene" uid="uid://bx55820kncd0o" path="res://scenes/objects/slug.tscn" id="8_doslx"]
 
 [node name="Level" type="Node2D"]
 texture_filter = 3
 
-[node name="LoadManagerOld" parent="." node_paths=PackedStringArray("loading_targets") instance=ExtResource("1_h246a")]
-layer = 1
-loading_targets = [NodePath("../LoadingRoot"), NodePath("../UI")]
-
 [node name="UI" parent="." node_paths=PackedStringArray("ground") instance=ExtResource("2_cblfs")]
-ground = NodePath("../LoadingRoot/Ground")
+ground = NodePath("../Ground")
 
-[node name="LoadingRoot" type="Node2D" parent="."]
+[node name="DebugTools" parent="." node_paths=PackedStringArray("player_ref") instance=ExtResource("3_e5ts3")]
+player_ref = NodePath("../Slug")
 
-[node name="Camera" type="Camera2D" parent="LoadingRoot" node_paths=PackedStringArray("camera_anchor")]
+[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("camera_anchor")]
 script = ExtResource("3_y686w")
 camera_anchor = NodePath("../Water")
 anchor_vertical = 2
 anchor_offset = Vector2(0, 50)
 
-[node name="Ground" parent="LoadingRoot" node_paths=PackedStringArray("water") instance=ExtResource("4_2eqed")]
-ground_texture = ExtResource("5_p5lrp")
+[node name="Ground" parent="." node_paths=PackedStringArray("water") instance=ExtResource("4_2eqed")]
+ground_texture = ExtResource("5_06ib1")
 background_modulate = Color(0.299547, 0.299547, 0.299547, 1)
 transparency_threshold = 0.1
 minimum_quadrant_area = 10.0
 water = NodePath("../Water")
 debug_colors = true
 
-[node name="Water" parent="LoadingRoot" instance=ExtResource("6_s72xo")]
+[node name="Water" parent="." instance=ExtResource("6_s72xo")]
 position = Vector2(609, 578)
 
-[node name="Slug" parent="LoadingRoot" instance=ExtResource("8_doslx")]
+[node name="Slug" parent="." instance=ExtResource("8_doslx")]
 position = Vector2(623, 134)
-
-[node name="DebugTools" parent="LoadingRoot" node_paths=PackedStringArray("player_ref") instance=ExtResource("3_e5ts3")]
-player_ref = NodePath("../Slug")
