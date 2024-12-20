@@ -15,3 +15,8 @@ func _on_progress_changed(progress: float):
 
 func _on_loading_done():
     pass
+
+
+@warning_ignore("unused_parameter")
+func _on_set_message(message: String):
+    pass

@@ -1,7 +1,7 @@
 extends LoadingScreen
 
 
-@onready var message: Label = $VBoxContainer/Message
+@onready var message_label: Label = $VBoxContainer/Message
 @onready var progress_bar: ProgressBar = $VBoxContainer/ProgressBar
 
 
@@ -17,3 +17,7 @@ func _on_progress_changed(progress: float):
 
 func _on_loading_done():
     loading_screen_finished.emit()
+
+
+func _on_set_message(message: String):
+    message_label.text = message
