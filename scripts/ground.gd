@@ -37,7 +37,7 @@ var kernel_steps_width: int
 var kernel_steps_height: int
 
 func _ready() -> void:
-    if GroundLoader.custom_ground:
+    if GroundLoader.has_custom_ground():
         ground_texture = GroundLoader.custom_ground_texture
     if not no_background or not OS.is_debug_build():
         ground_bg.texture = ground_texture
