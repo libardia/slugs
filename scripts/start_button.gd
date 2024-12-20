@@ -2,6 +2,5 @@ extends Button
 
 
 func _pressed():
-    # GroundLoader.pick_ground()
-    # get_tree().change_scene_to_file(GlobalData.SCENEPATH_LEVEL)
+    GroundLoader.pick_ground()
     LoadManager.load_scene(GlobalData.SCENEPATH_LEVEL)
