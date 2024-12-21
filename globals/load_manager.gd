@@ -1,7 +1,7 @@
 extends Node
 
 
-enum LoadingType { NOT_LOADING, FILE, READY}
+enum LoadingType {NOT_LOADING, FILE, READY}
 
 
 signal progress_changed(progress: float)
@@ -126,16 +126,28 @@ func process_load_file():
 
 func process_load_ready():
     if not nodes_waiting.is_empty():
-        var cur_scene := get_tree().current_scene
-        if cur_scene != null and cur_scene.process_mode != PROCESS_MODE_DISABLED:
-            cur_scene.process_mode = PROCESS_MODE_DISABLED
+        if not scene_is_frozen():
+            freeze_loaded_scene()
         progress_changed.emit(ready_loading_points / ready_loading_points_total)
     else:
         progress_changed.emit(1.0)
         loading_done.emit()
         currently_loading = LoadingType.NOT_LOADING
         process_mode = PROCESS_MODE_DISABLED
-        get_tree().current_scene.process_mode = PROCESS_MODE_INHERIT
+        unfreeze_loaded_scene()
+
+
+func scene_is_frozen() -> bool:
+    var cur_scene = get_tree().current_scene
+    return cur_scene != null and cur_scene.process_mode == PROCESS_MODE_DISABLED
+
+
+func freeze_loaded_scene():
+    get_tree().current_scene.process_mode = Node.PROCESS_MODE_DISABLED
+
+
+func unfreeze_loaded_scene():
+    get_tree().current_scene.process_mode = Node.PROCESS_MODE_INHERIT
 
 
 func cleanup_loading_scene():
