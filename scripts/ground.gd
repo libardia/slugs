@@ -27,7 +27,8 @@ class PolygonWithBounds:
 
 const EPSILON := 0.0
 const LP_PER_QUAD := 1
-@onready var ground_bg: Sprite2D = $GroundBG
+@onready var ground_bg_mask: Sprite2D = $GroundBGMask
+@onready var ground_bg_dirt: Sprite2D = $GroundBGMask/GroundBG
 var texture_image: Image
 var alpha_bitmap: BitMap
 var load_thread: Thread
@@ -40,8 +41,10 @@ func _ready() -> void:
     if GroundLoader.has_custom_ground():
         ground_texture = GroundLoader.custom_ground_texture
     if not no_background or not OS.is_debug_build():
-        ground_bg.texture = ground_texture
-        ground_bg.modulate = background_modulate
+        ground_bg_mask.texture = ground_texture
+        ground_bg_dirt.modulate = background_modulate
+        ground_bg_dirt.region_enabled = true
+        ground_bg_dirt.region_rect = Rect2(Vector2.ZERO, ground_texture.get_size())
     texture_image = ground_texture.get_image()
     alpha_bitmap = BitMap.new()
     alpha_bitmap.create_from_image_alpha(texture_image, transparency_threshold)

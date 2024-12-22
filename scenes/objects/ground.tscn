@@ -1,11 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://8ks35e64axi"]
+[gd_scene load_steps=4 format=3 uid="uid://8ks35e64axi"]
 
 [ext_resource type="Script" path="res://scripts/ground.gd" id="1_iob33"]
-[ext_resource type="Script" path="res://scripts/editor_ground_bg.gd" id="2_km54s"]
+[ext_resource type="Texture2D" uid="uid://bf8yr2uequ74d" path="res://assets/img/rb_696.png" id="2_vg6gb"]
+[ext_resource type="Script" path="res://scripts/_tool_ground_bg.gd" id="3_l1tk6"]
 
 [node name="Ground" type="Node2D"]
 script = ExtResource("1_iob33")
 
-[node name="GroundBG" type="Sprite2D" parent="."]
+[node name="GroundBGMask" type="Sprite2D" parent="."]
+clip_children = 1
 centered = false
-script = ExtResource("2_km54s")
+
+[node name="GroundBG" type="Sprite2D" parent="GroundBGMask"]
+texture_repeat = 2
+position = Vector2(0, -1)
+texture = ExtResource("2_vg6gb")
+centered = false
+region_rect = Rect2(0, 0, 200, 200)
+script = ExtResource("3_l1tk6")
