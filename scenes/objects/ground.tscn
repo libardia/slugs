@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://scripts/ground.gd" id="1_iob33"]
 [ext_resource type="Texture2D" uid="uid://bf8yr2uequ74d" path="res://assets/img/rb_696.png" id="2_vg6gb"]
-[ext_resource type="Script" path="res://scripts/_tool_ground_bg.gd" id="3_l1tk6"]
+[ext_resource type="Script" path="res://scripts_tool/tool_ground_bg.gd" id="3_l1tk6"]
 
-[node name="Ground" type="Node2D"]
+[node name="Ground" type="Node2D" groups=["terrain"]]
 script = ExtResource("1_iob33")
 
 [node name="GroundBGMask" type="Sprite2D" parent="."]

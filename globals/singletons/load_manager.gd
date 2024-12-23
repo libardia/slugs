@@ -1,3 +1,4 @@
+#class_name LoadManager
 extends Node
 
 
@@ -9,7 +10,7 @@ signal loading_done
 signal set_message(message: String)
 
 # For file loading
-var loading_screen: PackedScene = preload(GlobalData.SCENEPATH_LOADING_SCREEN)
+var loading_screen: PackedScene = preload(ScenePaths.LOADING_SCREEN)
 var loading_screen_root: LoadingScreen
 var loaded_scene_path: String
 var loaded_scene: PackedScene
@@ -114,8 +115,8 @@ func process_load_file():
             loaded_scene = ResourceLoader.load_threaded_get(loaded_scene_path)
             progress_changed.emit(1.0)
             get_tree().change_scene_to_packed(loaded_scene)
-            if loaded_scene_path in GlobalData.LOADMANAGER_LOAD_READY_MESSAGES:
-                set_message.emit(GlobalData.LOADMANAGER_LOAD_READY_MESSAGES[loaded_scene_path])
+            if loaded_scene_path in LoadManagerInfo.READY_MESSAGES:
+                set_message.emit(LoadManagerInfo.READY_MESSAGES[loaded_scene_path])
                 currently_loading = LoadingType.READY
                 progress_changed.emit(0.0)
             else:

@@ -27,6 +27,7 @@ class PolygonWithBounds:
 
 const EPSILON := 0.0
 const LP_PER_QUAD := 1
+@onready var ground_quad_group := StringName(str("belongs_to_ground_", self.get_instance_id()))
 @onready var ground_bg_mask: Sprite2D = $GroundBGMask
 @onready var ground_bg_dirt: Sprite2D = $GroundBGMask/GroundBG
 var texture_image: Image
@@ -64,6 +65,8 @@ func _ready() -> void:
     load_thread = Thread.new()
     load_thread.start(find_polygons)
 
+    print(ground_quad_group, " ", self)
+
 
 func _exit_tree():
     load_thread.wait_to_finish()
@@ -89,6 +92,7 @@ func add_quad(create_at: Vector2i, polygon: PackedVector2Array) -> void:
     ground_quad.polygon_data = polygon
     ground_quad.remove_small = remove_small_quads
     ground_quad.min_area = minimum_quadrant_area
+    ground_quad.add_to_group(ground_quad_group)
     add_child.call_deferred(ground_quad)
 
 

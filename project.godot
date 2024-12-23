@@ -17,10 +17,9 @@ boot_splash/show_image=false
 
 [autoload]
 
-DebugQuit="*res://globals/debug_quit.gd"
-GroundLoader="*res://globals/ground_loader.gd"
-LoadManager="*res://globals/load_manager.gd"
-GlobalData="*res://globals/global_data.gd"
+DebugQuit="*res://globals/singletons/debug_quit.gd"
+GroundLoader="*res://globals/singletons/ground_loader.gd"
+LoadManager="*res://globals/singletons/load_manager.gd"
 
 [dotnet]
 

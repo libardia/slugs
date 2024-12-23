@@ -5,7 +5,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_smt87"]
 
-[node name="Slug" type="CharacterBody2D"]
+[node name="Slug" type="CharacterBody2D" groups=["player"]]
 slide_on_ceiling = false
 floor_constant_speed = true
 floor_max_angle = 1.22173

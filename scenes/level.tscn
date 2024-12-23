@@ -19,6 +19,7 @@ script = ExtResource("3_y686w")
 camera_anchor = NodePath("../Water")
 anchor_vertical = 2
 anchor_offset = Vector2(0, 50)
+zoom_enabled = false
 
 [node name="Ground" parent="." node_paths=PackedStringArray("water") instance=ExtResource("4_2eqed")]
 ground_texture = ExtResource("4_y7835")
@@ -30,7 +31,16 @@ debug_colors = true
 position = Vector2(609, 578)
 
 [node name="Slug" parent="." instance=ExtResource("8_doslx")]
-position = Vector2(623, 134)
+position = Vector2(619, -82)
+
+[node name="Slug2" parent="." instance=ExtResource("8_doslx")]
+position = Vector2(510, -73)
+
+[node name="Slug3" parent="." instance=ExtResource("8_doslx")]
+position = Vector2(703, -90)
+
+[node name="Slug4" parent="." instance=ExtResource("8_doslx")]
+position = Vector2(381, -51)
 
 [node name="DebugTools" parent="." node_paths=PackedStringArray("player_ref") instance=ExtResource("3_e5ts3")]
 player_ref = NodePath("../Slug")

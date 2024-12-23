@@ -1,4 +1,4 @@
-class_name Vector2Ex
+class_name Vector2Util
 
 
 const err_msg = "Vector operation on different types"
