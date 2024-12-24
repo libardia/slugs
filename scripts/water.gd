@@ -9,4 +9,4 @@ func _ready() -> void:
     water_sprite.position = water_collider.position
     var shape_size = water_collider.shape.get_rect().size
     var sprite_size = water_sprite.texture.get_size()
-    water_sprite.scale = Vector2Ex.cw_divide(shape_size, sprite_size)
+    water_sprite.scale = Vector2Util.cw_divide(shape_size, sprite_size)

@@ -25,7 +25,6 @@ zoom_enabled = false
 ground_texture = ExtResource("4_y7835")
 transparency_threshold = 0.1
 water = NodePath("../Water")
-debug_colors = true
 
 [node name="Water" parent="." instance=ExtResource("6_s72xo")]
 position = Vector2(609, 578)
