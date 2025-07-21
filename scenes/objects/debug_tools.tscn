@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://c4umgopjh7t0u"]
 
-[ext_resource type="Script" path="res://scripts/debug_tools.gd" id="1_k6ndo"]
-[ext_resource type="Script" path="res://scripts/debug_cut.gd" id="2_vvsvr"]
-[ext_resource type="Script" path="res://scripts/generate_circle_polygon.gd" id="3_vxeq0"]
-[ext_resource type="Script" path="res://scripts/generate_circle_collision_polygon.gd" id="4_4usko"]
-[ext_resource type="Script" path="res://scripts/debug_place.gd" id="5_k5218"]
+[ext_resource type="Script" uid="uid://d27782dgsogu5" path="res://scripts/debug_tools.gd" id="1_k6ndo"]
+[ext_resource type="Script" uid="uid://bpouivqut18hd" path="res://scripts/debug_cut.gd" id="2_vvsvr"]
+[ext_resource type="Script" uid="uid://bnakhxeykvnrw" path="res://scripts/generate_circle_polygon.gd" id="3_vxeq0"]
+[ext_resource type="Script" uid="uid://cn64k0yinrjpg" path="res://scripts/generate_circle_collision_polygon.gd" id="4_4usko"]
+[ext_resource type="Script" uid="uid://c4htd3hd378lf" path="res://scripts/debug_place.gd" id="5_k5218"]
 
 [node name="DebugTools" type="Node2D"]
 script = ExtResource("1_k6ndo")

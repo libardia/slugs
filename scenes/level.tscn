@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dfk77vuhwhu6b" path="res://scenes/objects/ui.tscn" id="2_cblfs"]
 [ext_resource type="PackedScene" uid="uid://c4umgopjh7t0u" path="res://scenes/objects/debug_tools.tscn" id="3_e5ts3"]
-[ext_resource type="Script" path="res://scripts/level_camera.gd" id="3_y686w"]
+[ext_resource type="Script" uid="uid://ti5i2k432gj2" path="res://scripts/level_camera.gd" id="3_y686w"]
 [ext_resource type="PackedScene" uid="uid://8ks35e64axi" path="res://scenes/objects/ground.tscn" id="4_2eqed"]
 [ext_resource type="Texture2D" uid="uid://bsithnhmnealw" path="res://assets/img/ground3.png" id="4_y7835"]
 [ext_resource type="PackedScene" uid="uid://dfw4oa26judjh" path="res://scenes/objects/water.tscn" id="6_s72xo"]
@@ -26,9 +26,6 @@ ground_texture = ExtResource("4_y7835")
 transparency_threshold = 0.1
 water = NodePath("../Water")
 
-[node name="Water" parent="." instance=ExtResource("6_s72xo")]
-position = Vector2(609, 578)
-
 [node name="Slug" parent="." instance=ExtResource("8_doslx")]
 position = Vector2(619, -82)
 
@@ -40,6 +37,9 @@ position = Vector2(703, -90)
 
 [node name="Slug4" parent="." instance=ExtResource("8_doslx")]
 position = Vector2(381, -51)
+
+[node name="Water" parent="." instance=ExtResource("6_s72xo")]
+position = Vector2(609, 578)
 
 [node name="DebugTools" parent="." node_paths=PackedStringArray("player_ref") instance=ExtResource("3_e5ts3")]
 player_ref = NodePath("../Slug")

@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://yxy7r0m1bjci"]
+
+[node name="BitmapGround" type="Node2D"]

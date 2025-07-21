@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c84ywd2cc2rn"]
 
-[ext_resource type="Script" path="res://scripts/quit_button.gd" id="2_3vwqh"]
-[ext_resource type="Script" path="res://scripts/start_button.gd" id="2_t40l7"]
+[ext_resource type="Script" uid="uid://duvak4bdjcnpx" path="res://scripts/quit_button.gd" id="2_3vwqh"]
+[ext_resource type="Script" uid="uid://gvvu4ia68by5" path="res://scripts/start_button.gd" id="2_t40l7"]
 
 [node name="MainMenu" type="CenterContainer"]
 anchors_preset = 15

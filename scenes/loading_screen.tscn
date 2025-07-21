@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cj61ca2a0ip8t"]
 
-[ext_resource type="Script" path="res://scripts/loading_screen.gd" id="1_e0iym"]
+[ext_resource type="Script" uid="uid://b1ujvcaoqwicn" path="res://scripts/loading_screen.gd" id="1_e0iym"]
 
 [node name="LoadingScreen" type="CanvasLayer"]
 layer = 2
